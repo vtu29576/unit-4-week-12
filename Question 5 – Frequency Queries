@@ -1,0 +1,54 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int q = sc.nextInt();
+
+        Map<Integer, Integer> valueFreq = new HashMap<>();
+        Map<Integer, Integer> freqCount = new HashMap<>();
+
+        for (int i = 0; i < q; i++) {
+            int operation = sc.nextInt();
+            int x = sc.nextInt();
+
+            if (operation == 1) {
+                int oldFreq = valueFreq.getOrDefault(x, 0);
+                int newFreq = oldFreq + 1;
+
+                if (oldFreq > 0) {
+                    freqCount.put(oldFreq, freqCount.get(oldFreq) - 1);
+                }
+
+                valueFreq.put(x, newFreq);
+                freqCount.put(newFreq,
+                        freqCount.getOrDefault(newFreq, 0) + 1);
+
+            } else if (operation == 2) {
+                int oldFreq = valueFreq.getOrDefault(x, 0);
+
+                if (oldFreq > 0) {
+                    freqCount.put(oldFreq, freqCount.get(oldFreq) - 1);
+
+                    int newFreq = oldFreq - 1;
+
+                    if (newFreq == 0) {
+                        valueFreq.remove(x);
+                    } else {
+                        valueFreq.put(x, newFreq);
+                        freqCount.put(newFreq,
+                                freqCount.getOrDefault(newFreq, 0) + 1);
+                    }
+                }
+
+            } else if (operation == 3) {
+                System.out.println(
+                        freqCount.getOrDefault(x, 0) > 0 ? 1 : 0
+                );
+            }
+        }
+
+        sc.close();
+    }
+}
