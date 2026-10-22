@@ -1,0 +1,24 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        Map<String, Integer> freq = new HashMap<>();
+
+        for (int i = 0; i < n; i++) {
+            String hashtag = sc.next();
+            freq.put(hashtag, freq.getOrDefault(hashtag, 0) + 1);
+        }
+
+        List<String> hashtags = new ArrayList<>(freq.keySet());
+        Collections.sort(hashtags);
+
+        for (String hashtag : hashtags) {
+            System.out.println(hashtag + " " + freq.get(hashtag));
+        }
+
+        sc.close();
+    }
+}
