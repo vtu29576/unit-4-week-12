@@ -1,0 +1,86 @@
+import java.util.*;
+
+public class Main {
+    static class Product {
+        int id;
+        String name;
+        int stock;
+        double price;
+
+        Product(int id, String name, int stock, double price) {
+            this.id = id;
+            this.name = name;
+            this.stock = stock;
+            this.price = price;
+        }
+
+        @Override
+        public String toString() {
+            return id + " " + name + " " + stock + " " + price;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        Map<Integer, Product> products = new HashMap<>();
+
+        for (int i = 0; i < n; i++) {
+            int id = sc.nextInt();
+            String name = sc.next();
+            int stock = sc.nextInt();
+            double price = sc.nextDouble();
+
+            products.put(id, new Product(id, name, stock, price));
+        }
+
+        int salesCount = sc.nextInt();
+
+        for (int i = 0; i < salesCount; i++) {
+            int id = sc.nextInt();
+            int quantity = sc.nextInt();
+
+            Product product = products.get(id);
+
+            if (product != null && quantity >= 0
+                    && quantity <= product.stock) {
+                product.stock -= quantity;
+            }
+        }
+
+        int threshold = sc.nextInt();
+
+        System.out.println("Low-stock products:");
+        for (Product product : products.values()) {
+            if (product.stock < threshold) {
+                System.out.println(product);
+            }
+        }
+
+        List<Product> sortedProducts =
+                new ArrayList<>(products.values());
+
+        sortedProducts.sort(
+                Comparator.comparingInt((Product p) -> p.stock)
+                          .thenComparingInt(p -> p.id)
+        );
+
+        System.out.println("Products sorted by stock:");
+        for (Product product : sortedProducts) {
+            System.out.println(product);
+        }
+
+        int searchId = sc.nextInt();
+        Product found = products.get(searchId);
+
+        System.out.println("Product search:");
+        if (found != null) {
+            System.out.println(found);
+        } else {
+            System.out.println("Product not found");
+        }
+
+        sc.close();
+    }
+}
